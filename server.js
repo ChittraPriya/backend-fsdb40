@@ -1,15 +1,18 @@
-const http = require ('http');
+//Import Third party library - Nodejs framework = Express
+const express = require('express');
 
-//create server
+//create an express app
+const app = express();
 
-const server = http.createServer((req,res) =>{
-    //output as json format
-     res.writeHead(200,{
-         "Content-type" : "application/json"
-     })
-     res.end(JSON.stringify({ message: 'Hello NodeJS' }));
-});
-//start server
-server.listen(3001, "127.0.0.1", ()=>{
-    console.log("Server is connected at http://127.0.0.1:3001 ...")
+//configure route to the application
+app.get("/test",(req,res) =>{
+    res.json({message: "Hello World"})
+})
+
+//start the express application
+app.listen(3000,(error)=>{
+    if(error){
+        console.log("Error Starting the server",error.message)
+    }
+    console.log("server is listenting at http://localhost:3000 ....")
 })
