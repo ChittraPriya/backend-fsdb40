@@ -1,9 +1,9 @@
 const fs = require ('fs');
-
-fs.writeFile('./logs/log.txt',"Hello, Welocome to the world", (error) => {
+//To append
+fs.appendFile('./logs/log.txt',"\nWelcome", (error) => {
     if(error) {
-        console.log('Error writing data to the file', error.message);
+        console.log('Error append data to the file', error.message);
         return
     }
-    console.log("Data written to the file")
+    console.log("Data append to the file")
 })
