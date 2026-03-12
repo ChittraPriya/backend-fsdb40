@@ -5,5 +5,6 @@ fs.readFile('./logs/log.txt',"utf-8", (error,data) => {
         console.log('Error Reading data to the file', error.message);
         return
     }
-    console.log("Data reading to the file")
+    console.log(data.split('\n'));
+    console.log(data.split('\n').length);
 })
