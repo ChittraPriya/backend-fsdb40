@@ -6,12 +6,13 @@ mongoose.connect(process.env.MONGODB_URL)
 .then(()=>{
     console.log('Connected to mongodb database')
     //start the express application
-app.listen(3000,(error)=>{
+    const PORT = process.env.PORT || 3000
+app.listen(PORT,(error)=>{
     if(error){
         console.log("Error Starting the server",error.message)
         return;
     }
-    console.log("server is listenting at http://localhost:3000 ....")
+    console.log(`Server is listenting at http://localhost:${PORT} ....`)
 })
 })
 .catch((error) => {
