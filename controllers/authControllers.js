@@ -6,6 +6,13 @@ const authController = {
     try{
         //get the details from the request body
         const {name, email, password} = req.body
+        //check if user is already exist
+        const user = await User.find({email})
+        if(user.length > 0) {
+            //user already exist
+            //do not allow the user to register
+            return res.status(400).json({message: 'User Already Registered'})
+        }
 
         //password encrypt
         const hashedPassword = await bcrypt.hash(password, 10)
