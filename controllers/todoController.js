@@ -1,8 +1,9 @@
-const Todo = require ('../models/todo.js')
+const Todo = require ('../models/todo.js');
+const User = require('../models/user.js');
 const todoController = {
     getAllTodos: async (req,res) => {
       try {
-        const todos = await Todo.find({}, { "__v":0 });
+        const todos = await Todo.find({}, { "__v":0 }).populate('user', 'name email -_id');
         return res.status(200).json(todos)
       } catch (error) {
         return res.status(500).json({message: `Fetching all Todos failed :${error.message}`
@@ -13,14 +14,33 @@ const todoController = {
       try {
         //get the data
         const { title, description} = req.body
+
+        //get userId
+        const user = await User.findById(req.userId);
+        if (!user) {
+         return res.status(404).json({ message: "User not found" });
+        }
+
+
         //create a new model object using the received data
         const newTodo = new Todo({
           title,
-          description
-        }) 
+          description,
+          user: req.userId
+        });
+        
         //save the new todo object in the database
         const saveTodo = await newTodo.save();
+
+         //push the newly created todo id to the todos array in userObject
+        user.todos.push(saveTodo._id)
+        
+        //update the user object
+        await user.save()
+        //get the user logged in user data
+        
         return res.status(200).json({message: "todo created successfully",data: saveTodo})
+
       } catch (error) {
         return res.status(500).json({message: `Creating all Todos failed :${error.message}`
         })
