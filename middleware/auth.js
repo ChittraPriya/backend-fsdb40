@@ -46,7 +46,7 @@ const auth = {
             //allow the user to the next middleware
             next();
         }catch(error) {
-            return res.status(500).json({ message: err.message });
+            return res.status(500).json({ message: error.message });
         }
         }
     }

@@ -4,7 +4,8 @@ const express = require('express');
 const todoRouter = require('./routes/todoRoutes.js');
 const authRouter = require('./routes/authRoutes.js');
 const cookieParser = require('cookie-parser');
-const logger = require('./middleware/logger.js')
+const logger = require('./middleware/logger.js');
+const errorRoute = require('./middleware/errorRoute.js');
 
 //create an express app
 const app = express();
@@ -24,5 +25,8 @@ app.use(logger);
 app.use("/todos", todoRouter)
 app.use('/auth', authRouter)
 
+//when the above routes are not matched with the incoming request
+//handle the error router
+app.use(errorRoute)
 
 module.exports = app;
