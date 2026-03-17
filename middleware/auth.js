@@ -31,6 +31,7 @@ const auth = {
     },
     allowedRules: (roles) => {
         return async (req,res,next) => {
+            try{
             //get userid from the request object
             const userId = req.userId;
             //get the logged in user object from the database
@@ -38,12 +39,15 @@ const auth = {
             //get the role of the user
             const role = user.role;
             //check if the role is in the allowed rules
-            if(!roles.includes(role)) {
+            if(!roles.includes(user.role)) {
                 //return an error
                 return res.status(401).json({message: "Unauthorised access"})
             }
             //allow the user to the next middleware
             next();
+        }catch(error) {
+            return res.status(500).json({ message: err.message });
+        }
         }
     }
 }
